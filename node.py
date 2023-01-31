@@ -10,12 +10,12 @@ class node():
         (also optional). **kwagrs is a dictionary between variable name and value, like a=0. This may be used for
         special search algorithms and storing information along the way
         """
-        self._num=num
+        self._num = int(num)
         self._next = []
         self._info = info
 
     def __str__(self):
-        return f"Node {self._num}:: Dependants{[str(i) for i in self._next]}, Info{self._info}"
+        return f"Node {self._num} :: Dependants{[str(i) for i in self._next]}, Info{self._info}"
 
     def get_num(self):
         return self._num
@@ -28,14 +28,19 @@ class node():
         self._info[key] = value
 
     #Adds a dependant
-    def add_dep(self,n):
-        self._next.append(n)
+    def __iadd__(self,n):
+        if not isinstance(n,node):
+            raise ValueError("NODE ADD - not a node")
+        if n not in self._next:
+            self._next.append(n)
+        return self
 
     #Iterates over the dependants (_next)
     def __iter__(self):
         self._iterator = 0
         return self
     def __next__(self):
+        self._iterator+=1
         if self._iterator < len(self._next):
             return self._next[self._iterator]
         raise StopIteration

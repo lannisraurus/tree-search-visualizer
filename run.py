@@ -13,29 +13,44 @@ def static_ui(win:GraphWin):
     message1.draw(win)
     message2.draw(win)
 
-#Stores a graph in an orderly manner to allow for visualization
-def load_nodes():
-    result = []
+#Loads up nodes from save file
+def load_nodes(store:list):
     file = open('graph.data','r')
     for line in file:
+        line.strip("\n")
         words = line.split(' ')
         if words[0]=="NODE":
             attributes = {}
             for attribute in words[2:]:
                 dict_elems = attribute.split("=")
                 attributes[dict_elems[0]] = float(dict_elems[1])
-            result.append(node(int(words[1]),attributes))
-        elif words[0]=="ADD":
-            for i in result:
-                if i.get_num()==int(words[1]):
-                    for j in result:
-                        if j.get_num()==int(words[2]):
-                            print("ADDING")
-                            i.add_dep(j)
-
+            obj = node(int(words[1]),attributes)
+            store.append(obj)
     file.close()
-    return result
+    print("Loaded ",len(store)," nodes:")
+    for i in store: print(i)
 
+#Connects node list
+def connect_nodes(connect:list):
+    file = open('graph.data','r')
+    for line in file:
+        words = line.split(' ')
+        if words[0]=="ADD":
+            one = 0
+            while one < len(connect):
+                if connect[one].get_num()==int(words[1]):
+                    two = 0
+                    while two < len(connect):
+                        if connect[two].get_num()==int(words[2]):
+                            print(f"ADDING {two+1} to {one+1}")
+                            connect[one]+=connect[two]
+                            break
+                        else:
+                            two+=1
+                    break
+                else:
+                    one+=1
+    file.close()
 
 
 #Finds the mother nodes
@@ -45,7 +60,10 @@ def mother_nodes(nodes:list):
         for j in i:
             if j not in dependants:
                 dependants.append(j)
-    return [i for i in nodes if i not in dependants]
+    result = [k for k in nodes if k not in dependants]
+    print("Mother nodes:")
+    for l in dependants: print(l)
+    return result
 
 
 #Draws the graph tree given a window and an ordered graph structure
@@ -60,16 +78,17 @@ def draw_graph(win:GraphWin,graph:list):
 #Main function
 def main():
     win = GraphWin('Graph Recursion', 1080, 720)
-    nodes = load_nodes()
+    nodes = []
+    load_nodes(nodes)
+    connect_nodes(nodes)
     mother = mother_nodes(nodes)
-
-    for i in nodes: print(i)
     static_ui(win)
     while win.isOpen():
 
         #Keyboard events
-        if win.getKey()=="Q" or win.getKey()=="q": win.close()
-        elif win.getKey()=="E" or win.getKey()=="e": func(win,mother_nodes)
+        key = win.getKey()
+        if key=="Q" or key=="q": win.close()
+        elif key=="E" or key=="e": func(win,mother)
         
 
 
