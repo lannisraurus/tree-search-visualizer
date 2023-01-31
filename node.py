@@ -40,9 +40,11 @@ class node():
         self._iterator = 0
         return self
     def __next__(self):
-        self._iterator+=1
+        
         if self._iterator < len(self._next):
-            return self._next[self._iterator]
+            result = self._next[self._iterator]
+            self._iterator+=1
+            return result
         raise StopIteration
 
     #Get dictionary of object information

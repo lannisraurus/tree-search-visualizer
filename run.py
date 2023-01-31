@@ -27,8 +27,6 @@ def load_nodes(store:list):
             obj = node(int(words[1]),attributes)
             store.append(obj)
     file.close()
-    print("Loaded ",len(store)," nodes:")
-    for i in store: print(i)
 
 #Connects node list
 def connect_nodes(connect:list):
@@ -42,7 +40,6 @@ def connect_nodes(connect:list):
                     two = 0
                     while two < len(connect):
                         if connect[two].get_num()==int(words[2]):
-                            print(f"ADDING {two+1} to {one+1}")
                             connect[one]+=connect[two]
                             break
                         else:
@@ -55,24 +52,20 @@ def connect_nodes(connect:list):
 
 #Finds the mother nodes
 def mother_nodes(nodes:list):
+    def aux(nod:node,lis:list):
+        for i in nod:
+            if i not in lis:
+                lis.append(i)
+            aux(i,lis)
     dependants = []
     for i in nodes:
-        for j in i:
-            if j not in dependants:
-                dependants.append(j)
-    result = [k for k in nodes if k not in dependants]
-    print("Mother nodes:")
-    for l in dependants: print(l)
-    return result
+        aux(i,dependants)
+    return [k for k in nodes if k not in dependants]
 
 
 #Draws the graph tree given a window and an ordered graph structure
 def draw_graph(win:GraphWin,graph:list):
     a = 0
-
-
-
-
 
 
 #Main function
