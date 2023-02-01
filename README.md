@@ -11,7 +11,7 @@ This project was made possible with `John Zelle's` graphics.py.
   <img src="depth_search.gif" />
 </p>
 
-# Example: Breadth-wide Search
+# Example: Breadth Search
 
 <p align="center">
   <img src="wide_search.gif" />
