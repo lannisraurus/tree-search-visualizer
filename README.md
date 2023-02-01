@@ -1,7 +1,7 @@
 # Overview
 
-Inspired by my introductory programming classes.
-I wanted to visualize recursion when applied to searching algorithms, and so I built this tool for that!
+Inspired by my introductory programming classes.<br />
+I wanted to visualize recursion when applied to searching algorithms, and so I built this tool for that!<br />
 Feel free to edit my code (`func_edit` is the search function) and build different graphs (`graph.data`).
 
 # Example: Depth Search (default implementation)
@@ -28,7 +28,7 @@ To connect nodes, type:
 ```
 ADD X Y
 ```
-The 'arrow' points `from X to Y`.
+The 'arrow' points `from X to Y`.<br />
 Y is dependant on X.
 
 # Enjoy!!
