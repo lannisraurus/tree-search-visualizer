@@ -9,8 +9,6 @@ NODE 8
 NODE 9
 NODE 10
 
-
-
 ADD 1 2
 ADD 1 3
 ADD 2 4
@@ -20,5 +18,3 @@ ADD 2 7
 ADD 3 8
 ADD 3 9
 ADD 4 10
-
-

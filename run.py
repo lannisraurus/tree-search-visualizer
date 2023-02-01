@@ -49,7 +49,6 @@ def connect_nodes(connect:list):
                     one+=1
     file.close()
 
-
 #Finds the mother nodes
 def mother_nodes(nodes:list):
     def aux(nod:node,lis:list):
@@ -62,10 +61,40 @@ def mother_nodes(nodes:list):
         aux(i,dependants)
     return [k for k in nodes if k not in dependants]
 
+#Finds greatest path length
+def max_path_length(mother:list):
+    def search(nodes:list,lis=[],count=1):
+        for i in nodes:
+            lis.append(count)
+            search(i,lis,count+1)
+    max_list = []
+    search(mother,max_list)
+    return max(max_list)
 
 #Draws the graph tree given a window and an ordered graph structure
-def draw_graph(win:GraphWin,graph:list):
-    a = 0
+def draw_graph(win:GraphWin,mother:list,step:int,level=200):
+    next = []
+    for i in mother:
+        if i not in next:
+            next.append(i)
+
+    start = 200
+    x_step = (win.getWidth()-start*2)/len(next) if len(next)>0 else 0
+    for j in next:
+        print(level)
+        j.assign_circle(Circle(Point(start,level),step/5))
+        j.get_circle().draw(win)
+        start+=x_step
+
+    
+    if len(next)>0:
+        result = []
+        for i in next:
+            for j in i:
+                if j not in mother:
+                    result.append(j)
+        draw_graph(win,result,step,level+step)
+
 
 
 #Main function
@@ -75,6 +104,7 @@ def main():
     load_nodes(nodes)
     connect_nodes(nodes)
     mother = mother_nodes(nodes)
+    draw_graph(win,mother,win.getHeight()/max_path_length(mother)-120)
     static_ui(win)
     while win.isOpen():
 
@@ -84,30 +114,7 @@ def main():
         elif key=="E" or key=="e": func(win,mother)
         
 
-
-
-
 main()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -22,6 +22,10 @@ class node():
 
     def assign_circle(self,circle:Circle):
         self._circle = circle
+        self._circle.setFill("white")
+
+    def get_circle(self):
+        return self._circle
 
     #Adds/replaces information
     def add_info(self,key,value):
@@ -40,7 +44,6 @@ class node():
         self._iterator = 0
         return self
     def __next__(self):
-        
         if self._iterator < len(self._next):
             result = self._next[self._iterator]
             self._iterator+=1
