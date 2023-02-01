@@ -26,27 +26,21 @@ def load_nodes(store:list):
                 attributes[dict_elems[0]] = float(dict_elems[1])
             obj = node(int(words[1]),attributes)
             store.append(obj)
-    file.close()
-
-#Connects node list
-def connect_nodes(connect:list):
-    file = open('graph.data','r')
-    for line in file:
-        words = line.split(' ')
-        if words[0]=="ADD":
+        elif words[0]=="ADD":
             one = 0
-            while one < len(connect):
-                if connect[one].get_num()==int(words[1]):
+            while one < len(store):
+                if store[one].get_num()==int(words[1]):
                     two = 0
-                    while two < len(connect):
-                        if connect[two].get_num()==int(words[2]):
-                            connect[one]+=connect[two]
+                    while two < len(store):
+                        if store[two].get_num()==int(words[2]):
+                            store[one]+=store[two]
                             break
                         else:
                             two+=1
                     break
                 else:
                     one+=1
+
     file.close()
 
 #Finds the mother nodes
@@ -72,29 +66,55 @@ def max_path_length(mother:list):
     return max(max_list)
 
 #Draws the graph tree given a window and an ordered graph structure
-def draw_graph(win:GraphWin,mother:list,step:int,level=200):
+def build_graph(win:GraphWin,mother:list,step:int,level:int):
     next = []
     for i in mother:
-        if i not in next:
-            next.append(i)
-
+        for j in i:
+            if j not in next:
+                next.append(j)
     start = 200
-    x_step = (win.getWidth()-start*2)/len(next) if len(next)>0 else 0
-    for j in next:
-        print(level)
+    x_step = (win.getWidth()-start*2)/(len(mother)-1) if len(mother)-1>0 else 0
+    for j in mother:
         j.assign_circle(Circle(Point(start,level),step/5))
-        j.get_circle().draw(win)
         start+=x_step
-
-    
     if len(next)>0:
-        result = []
-        for i in next:
-            for j in i:
-                if j not in mother:
-                    result.append(j)
-        draw_graph(win,result,step,level+step)
+        build_graph(win,next,step,level+step)
 
+def draw_nodes(win:GraphWin,mother:list):
+    next = []
+    for i in mother:
+        i.get_circle().undraw()
+        i.get_circle().draw(win)
+        for j in i:
+            if j not in next:
+                next.append(j)
+    if len(next)>0:
+        draw_nodes(win,next)
+
+def draw_connections(win:GraphWin,mother:list):
+    next = []
+    for i in mother:
+        for j in i:
+            if j not in next:
+                next.append(j)
+            i.assign_connection(j)
+    for i in mother:
+        for j in i.get_connections():
+            j.undraw()
+            j.draw(win)
+    if len(next)>0:
+        draw_connections(win,next)
+
+def draw_numbers(win:GraphWin,mother:list):
+    next = []
+    for i in mother:
+        i.get_splash().undraw()
+        i.get_splash().draw(win)
+        for j in i:
+            if j not in next:
+                next.append(j)
+    if len(next)>0:
+        draw_numbers(win,next)
 
 
 #Main function
@@ -102,10 +122,13 @@ def main():
     win = GraphWin('Graph Recursion', 1080, 720)
     nodes = []
     load_nodes(nodes)
-    connect_nodes(nodes)
     mother = mother_nodes(nodes)
-    draw_graph(win,mother,win.getHeight()/max_path_length(mother)-120)
+    build_graph(win,mother,(win.getHeight()-200)/(max_path_length(mother)-1),100)
+    draw_connections(win,mother)
+    draw_nodes(win,mother)
+    draw_numbers(win,mother)
     static_ui(win)
+
     while win.isOpen():
 
         #Keyboard events
