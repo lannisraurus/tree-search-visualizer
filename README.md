@@ -6,11 +6,15 @@ Feel free to edit my code (`func_edit` is the search function) and build differe
 
 # Example: Depth Search (default implementation)
 
-![Depth Search](depth_search.gif)
+<p align="center">
+  <img src="depth_search.gif" />
+</p>
 
 # Example: Breadth-wide Search
 
-![Breadth-wide Search](wide_search.gif)
+<p align="center">
+  <img src="wide_search.gif" />
+</p>
 
 # graph.data syntax
 
