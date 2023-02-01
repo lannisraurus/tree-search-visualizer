@@ -1,7 +1,7 @@
 # Overview
 
 Inspired by my introductory programming classes.
-I always wanted to have a visual way to view recursion when applied to searching algorithms, and so I built this tool for that!
+I wanted to visualize recursion when applied to searching algorithms, and so I built this tool for that!
 Feel free to edit my code (`func_edit` is the search function) and build different graphs (`graph.data`)
 
 # Example: Depth Search (default implementation)
