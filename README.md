@@ -31,4 +31,6 @@ ADD X Y
 The 'arrow' points `from X to Y`.<br />
 Y is dependant on X.
 
-# Enjoy!!
+# Run it
+
+Execute `run.py` to start the program. *ENJOY!*
