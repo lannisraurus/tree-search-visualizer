@@ -1,23 +1,27 @@
+# YOU CAN EDIT THE GRAPHS HERE
+# NODE NUM INFO -> Creates a node, assigns a number to it and a dictionary of information (many variables if need be) 
+# ADD X Y -> Forms a connection X->Y
+
 NODE 1 a=1 test=3
-NODE 2 a=1
-NODE 3 a=1
-NODE 4 a=1
-NODE 5 a=1
-NODE 6 a=1
-NODE 7 a=1
-NODE 8 a=1
-NODE 9 a=1
-NODE 10 a=1
-NODE 11 a=1
-NODE 12 a=1
-NODE 13 a=1
-NODE 14 a=1
-NODE 15 a=1
-NODE 16 a=1
-NODE 17 a=1
-NODE 18 a=1
-NODE 19 a=1
-NODE 20 a=1
+NODE 2 a=2
+NODE 3 a=3
+NODE 4 a=4
+NODE 5 a=10
+NODE 6 a=11
+NODE 7 a=12
+NODE 8 a=13
+NODE 9 a=14
+NODE 10 a=-1
+NODE 11 a=1.12
+NODE 12 a=0.001
+NODE 13 a=inf
+NODE 14 a=123
+NODE 15 a=1234
+NODE 16 a=0
+NODE 17 a=0
+NODE 18 a=0
+NODE 19 a=112
+NODE 20 a=11
 
 ADD 1 4
 ADD 1 5
@@ -40,8 +44,6 @@ ADD 12 17
 ADD 12 18
 ADD 12 19
 ADD 13 18
-ADD 13 19
-ADD 13 20
 ADD 5 11
 ADD 8 12
 ADD 6 10
