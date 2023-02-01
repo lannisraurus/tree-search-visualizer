@@ -17,32 +17,40 @@ class node():
         self._connections = []
         self._switch = True
 
+    #Prints out node information
     def __str__(self):
         return f"Node {self._num} :: Dependants{[str(i) for i in self._next]}, Info{self._info}"
 
+    #Returns node number
     def get_num(self):
         return self._num
 
+    #Assigns a circle to the node
     def assign_circle(self,circle:Circle):
         self._circle = circle
         self._circle.setFill("white")
 
+    #Returns circle center
     def get_circle_pos(self):
         return self._circle.getCenter()
 
+    #Returns a splash text of the number
     def get_splash(self):
         result = Text(self.get_circle_pos(),str(self._num))
         result.setTextColor('black')
         return result
 
+    #Assigns line connection to the node
     def assign_connection(self,second_node):
         self._connections.append(Line(self.get_circle_pos(),second_node.get_circle_pos()))
         self._connections[-1].setFill("white")
         self._connections[-1].setWidth(2)
 
+    #Returns list of connections
     def get_connections(self):
         return self._connections
 
+    #Returns node circle
     def get_circle(self):
         return self._circle
 
@@ -70,8 +78,9 @@ class node():
         raise StopIteration
 
     #Get dictionary of object information
-    def get_info(self): return self._info
+    def get_info(self): return self._info.items()
     
+    #Switches colour white->green->white->...
     def switch_colour(self):
         if self._switch == True:
             self._circle.setFill('green')

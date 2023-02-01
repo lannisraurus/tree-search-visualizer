@@ -2,16 +2,7 @@
 from graphics import *
 from func_edit import func
 from node import node
-
-#Static UI elements
-def static_ui(win:GraphWin):
-    win.setBackground('black')
-    message1 = Text(Point(70, 30), 'E - propagate')
-    message2 = Text(Point(48, 50), 'Q - Quit')
-    message1.setTextColor('white')
-    message2.setTextColor('white')
-    message1.draw(win)
-    message2.draw(win)
+import time
 
 #Loads up nodes from save file
 def load_nodes(store:list):
@@ -73,13 +64,14 @@ def build_graph(win:GraphWin,mother:list,step:int,level:int):
             if j not in next:
                 next.append(j)
     start = 200
-    x_step = (win.getWidth()-start*2)/(len(mother)-1) if len(mother)-1>0 else 0
+    x_step = (win.getWidth()-start*2)/(len(mother)-1) if len(mother)-1>0 else (win.getWidth()-start*2)/2
     for j in mother:
-        j.assign_circle(Circle(Point(start,level),step/5))
+        j.assign_circle(Circle(Point(start,level),x_step/5))
         start+=x_step
     if len(next)>0:
         build_graph(win,next,step,level+step)
 
+#Draws the nodes assigned in the build graph phase
 def draw_nodes(win:GraphWin,mother:list):
     next = []
     for i in mother:
@@ -91,6 +83,7 @@ def draw_nodes(win:GraphWin,mother:list):
     if len(next)>0:
         draw_nodes(win,next)
 
+#Draws the connection lines between the nodes
 def draw_connections(win:GraphWin,mother:list):
     next = []
     for i in mother:
@@ -105,6 +98,7 @@ def draw_connections(win:GraphWin,mother:list):
     if len(next)>0:
         draw_connections(win,next)
 
+#Draw the node ID's on top of them
 def draw_numbers(win:GraphWin,mother:list):
     next = []
     for i in mother:
@@ -116,38 +110,43 @@ def draw_numbers(win:GraphWin,mother:list):
     if len(next)>0:
         draw_numbers(win,next)
 
-
 #Main function
 def main():
+    #Open window
     win = GraphWin('Graph Recursion', 1080, 720)
+    win.setBackground('black')
+    #Messages
+    message1 = Text(Point(70, 30), 'E - propagate')
+    message2 = Text(Point(48, 50), 'Q - Quit')
+    message3 = Text(Point(win.getWidth()/2,win.getHeight()-100),' ')
+    #Load node list
     nodes = []
     load_nodes(nodes)
     mother = mother_nodes(nodes)
-    build_graph(win,mother,(win.getHeight()-200)/(max_path_length(mother)-1),100)
+    #Assigns positions to the graph nodes
+    build_graph(win,mother,(win.getHeight()-360)/(max_path_length(mother)-1),100)
+    #Draws details
     draw_connections(win,mother)
     draw_nodes(win,mother)
     draw_numbers(win,mother)
-    static_ui(win)
-
+    #Draw UI
+    message1.setTextColor('white')
+    message2.setTextColor('white')
+    message3.setTextColor('white')
+    message1.draw(win)
+    message2.draw(win)
+    message3.draw(win)
     while win.isOpen():
-
-        #Keyboard events
         key = win.getKey()
-        if key=="Q" or key=="q": win.close()
-        elif key=="E" or key=="e": func(win,mother)
+        if key=="Q" or key=="q":
+            message2.setTextColor('green')
+            time.sleep(0.3)
+            win.close()
+        elif key=="E" or key=="e":
+            message1.setTextColor('green')
+            return_value = func(win,message3,mother)
+            message3.setText(str(return_value))
+            message1.setTextColor('white')
         
 
 main()
-
-
-
-
-"""
-head = Circle(Point(40,100), 25) # set center and radius
-head.setFill("yellow")
-head.draw(win)
-
-eye2 = Line(Point(45, 105), Point(55, 105)) # set endpoints
-eye2.setWidth(3)
-eye2.draw(win)
-"""
